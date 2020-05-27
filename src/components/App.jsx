@@ -1,6 +1,7 @@
 // Import VideoList Var
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
+import Search from './Search.js';
 // import all the video examples
 import exampleVideoData from '../data/exampleVideoData.js';
 
@@ -12,6 +13,9 @@ class App extends React.Component {
       currentVideo: exampleVideoData[0]
     };
     this.onVideoClick = this.onVideoClick.bind(this);
+    this.onSearchClick = this.onSearchClick.bind(this);
+    this.onSearchEntry = this.onSearchClick.bind(this);
+    this.searchEntryDebounced = _.debounce(this.onSearchEntry, 1000);
   }
 
   onVideoClick(video) {
@@ -21,12 +25,38 @@ class App extends React.Component {
     });
   }
 
+  onSearchClick(input) {
+    this.props.searchYouTube({
+      key: this.props.apiKey,
+      query: input,
+      max: 5
+    }, (data) => {
+      this.setState({
+        allVideos: data,
+        currentVideo: data[0]
+      });
+    });
+  }
+
+  onSearchEntry(input) {
+    this.props.searchYouTube({
+      key: this.props.apiKey,
+      query: input,
+      max: 5
+    }, (data) => {
+      this.setState({
+        allVideos: data,
+        currentVideo: data[0]
+      });
+    });
+  }
+
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <Search onSearchClick={this.onSearchClick} searchEntryDebounced={this.searchEntryDebounced}/>
           </div>
         </nav>
         <div className="row">
