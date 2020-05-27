@@ -1,5 +1,6 @@
 var searchYouTube = (options, callback) => {
   // TODO
+  //console.log('API hit');
   $.get('https://www.googleapis.com/youtube/v3/search', {
     part: 'snippet',
     type: 'video',

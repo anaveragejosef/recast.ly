@@ -12,7 +12,6 @@ class App extends React.Component {
       currentVideo: exampleVideoData[0]
     };
     this.onVideoClick = this.onVideoClick.bind(this);
-    // this.temp = this;
   }
 
   onVideoClick(video) {
@@ -41,9 +40,23 @@ class App extends React.Component {
       </div>
     );
   }
+
+  componentDidMount() {
+    this.props.searchYouTube({
+      key: this.props.apiKey,
+      query: 'Basketball',
+      max: 5
+    }, (data) => {
+      this.setState({
+        allVideos: data,
+        currentVideo: data[0]
+      });
+    });
+    // console.log("did mount ran!");
+  }
+
 }
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope
 // `var` declarations will only exist globally where explicitly defined
 export default App;
-ReactDOM.render(<App />, document.getElementById('app'));
