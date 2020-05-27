@@ -7,15 +7,19 @@ import exampleVideoData from '../data/exampleVideoData.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.onVideoClick = this.onVideoClick.bind(this);
     this.state = {
       allVideos: exampleVideoData,
       currentVideo: exampleVideoData[0]
     };
+    this.onVideoClick = this.onVideoClick.bind(this);
+    // this.temp = this;
   }
 
   onVideoClick(video) {
-    console.log(video);
+    // console.log(video);
+    this.setState({
+      currentVideo: video
+    });
   }
 
   render() {
@@ -31,7 +35,7 @@ class App extends React.Component {
             <VideoPlayer video={this.state.currentVideo}/>
           </div>
           <div className="col-md-5">
-            <VideoList videos={this.state.allVideos} onClick={this.onVideoClick}/>
+            <VideoList videos={this.state.allVideos} onVideoClick={this.onVideoClick}/>
           </div>
         </div>
       </div>
